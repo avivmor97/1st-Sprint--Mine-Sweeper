@@ -46,8 +46,6 @@ function buildBoard() {
         }
     }
 
-
-
  
     return board;
 }
@@ -63,18 +61,18 @@ function setMinesNegsCount(board) {
 function countMinesAround(board, rowIdx, colIdx) {
     var minesCount = 0;
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-        if (i < 0 || i >= board.length) continue;
+        if (i < 0 || i >= board.length) continue
         for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            if (j < 0 || j >= board[i].length) continue;
-            if (i === rowIdx && j === colIdx) continue;
-            if (board[i][j].isMine) minesCount++;
+            if (j < 0 || j >= board[i].length) continue
+            if (i === rowIdx && j === colIdx) continue
+            if (board[i][j].isMine) minesCount++
         }
     }
     return minesCount;
 }
 
 function renderBoard(board) {
-    var strHTML = '<table><tbody>';
+    var strHTML = '<table><tbody>'
     for (var i = 0; i < board.length; i++) {
         strHTML += '<tr>';
         for (var j = 0; j < board[i].length; j++) {
@@ -86,9 +84,9 @@ function renderBoard(board) {
                 ${cell.isMine ? MINE : cell.minesAroundCount}
             </td>`;
         }
-        strHTML += '</tr>';
+        strHTML += '</tr>'
     }
-    strHTML += '</tbody></table>';
+    strHTML += '</tbody></table>'
 
     var elBoard = document.querySelector('.board');
     elBoard.innerHTML = strHTML;
@@ -134,15 +132,18 @@ function gameover() {
     gGame.isOn = false;
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[i].length; j++) {
-            var cell = gBoard[i][j];
+            var cell = gBoard[i][j]
             var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`);
-            elCell.innerText = cell.isMine ? EXPLOADED_MINE : cell.minesAroundCount;
-            elCell.classList.remove('hidden');
+            elCell.innerText = cell.isMine ? EXPLOADED_MINE : cell.minesAroundCount
+            elCell.classList.remove('hidden')
         } 
     }
    
-    var popWindow = document.querySelector('.looser-window')
-    popWindow.style.display = 'block'
+    var elPopWindow = document.querySelector('.looser-window')
+    elPopWindow.style.display = 'block'
+
+    var elFace = document.querySelector('.face')
+    elFace.innerText = '🤯'
 
 }
 
@@ -151,24 +152,26 @@ function restartGame(){
     gBoard = buildBoard()
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
-     var popWindow = document.querySelector('.looser-window')
-    popWindow.style.display = 'none'
+     var elPopWindow = document.querySelector('.looser-window')
+     elPopWindow.style.display = 'none'
+      var elFace = document.querySelector('.face')
+    elFace.innerText = '😁'
 
     
 }
 
 
 function onBeginner() {
-    gLevel = { SIZE: 4, MINES: 2 };
-    restartGame();
+    gLevel = { SIZE: 4, MINES: 2 }
+    restartGame()
 }
 
 function onMedium() {
-    gLevel = { SIZE: 8, MINES: 14 };
-    restartGame();
+    gLevel = { SIZE: 8, MINES: 14 }
+    restartGame()
 }
 
 function onExpert() {
-    gLevel = { SIZE: 12, MINES: 32 };
-    restartGame();
+    gLevel = { SIZE: 12, MINES: 32 }
+    restartGame()
 }

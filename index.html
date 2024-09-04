@@ -12,18 +12,21 @@
 <body onload="onInit()">
 
     <h1>Mine Sweeper </h1>
+
+    <div><button class="face" onclick="restartGame()">😁</button></div>
     <table>
         <tbody class="board">
         </tbody>
     </table>
 
 <div class="looser-window"><h4>You Lost !</h4>
-    <button onclick="restartGame()">Restart</button>
+   
 </div>
 
-<div class="diff"><button onclick="onBeginner(this)" class="beginner">Beginner</button>
-<button onclick="onMedium(this)" class="medium">Medium</button>
-<button onclick="onExpert(this)" class="Expert">Expert</button></div>
+<div class="diff">
+    <button onclick="onBeginner(this)" class="beginner">Beginner</button>
+    <button onclick="onMedium(this)" class="medium">Medium</button>
+    <button onclick="onExpert(this)" class="Expert">Expert</button></div>
     <script src="JS/Main.js"></script>
     <script src="JS/utilles.js"></script>
 </body>
