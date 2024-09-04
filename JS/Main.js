@@ -98,54 +98,82 @@ function onCellClicked(elCell, i, j) {
     var cell = gBoard[i][j]
 
     if (cell.isShown || cell.isMarked) return
-    cell.isShown = true;
+
+    cell.isShown = true
+    gGame.shownCount++
 
     if (cell.isMine) {
         elCell.innerText = EXPLOADED_MINE
         elCell.classList.remove('hidden')
-        gameover()
+        gameover(false)  
     } else {
         elCell.innerText = cell.minesAroundCount
         elCell.classList.remove('hidden')
+        checkWin()
     }
-
-
 }
 
-function onCellRightClicked(event, elCell, i, j) {
-    event.preventDefault()
 
-    if (!gGame.isOn) return
-    var cell = gBoard[i][j]
+function onCellRightClicked(event, elCell, i, j) {
+    event.preventDefault();
+
+    if (!gGame.isOn) return;
+    var cell = gBoard[i][j];
 
     if (!cell.isShown) {
-        cell.isMarked = !cell.isMarked;
+        cell.isMarked = !cell.isMarked
         elCell.classList.remove('hidden')
         elCell.classList.toggle('marked', cell.isMarked)
         elCell.innerText = cell.isMarked ? FLAG : (cell.isMine ? MINE : cell.minesAroundCount)
+        
+        if (cell.isMarked) {
+            gGame.markedCount++
+        } else {
+            gGame.markedCount--
+        }
+
+        checkWin()
     }
 }
 
 
 
-function gameover() {
+
+function gameover(isWin) {
     gGame.isOn = false;
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[i].length; j++) {
             var cell = gBoard[i][j]
-            var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`);
-            elCell.innerText = cell.isMine ? EXPLOADED_MINE : cell.minesAroundCount
+            var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`)
+            elCell.innerText = cell.isMine ? MINE : cell.minesAroundCount
             elCell.classList.remove('hidden')
-        } 
+        }
     }
-   
+
     var elPopWindow = document.querySelector('.looser-window')
-    elPopWindow.style.display = 'block'
-
     var elFace = document.querySelector('.face')
-    elFace.innerText = '🤯'
 
+    if (isWin) {
+        elPopWindow.innerHTML = '<h4>You Won!</h4>'
+        elFace.innerText = '😎'
+    } else {
+        elPopWindow.innerHTML = '<h4>You Lost!</h4>'
+        elFace.innerText = '🤯'
+    }
+
+    elPopWindow.style.display = 'block'
 }
+
+
+function checkWin() {
+    var totalCells = gLevel.SIZE * gLevel.SIZE
+    var nonMineCells = totalCells - gLevel.MINES
+
+    if (gGame.shownCount === nonMineCells && gGame.markedCount === gLevel.MINES) {
+        gameover(true)
+    }
+}
+
 
 function restartGame(){
     gGame.isOn=true
