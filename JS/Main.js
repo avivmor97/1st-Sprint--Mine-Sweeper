@@ -1,6 +1,9 @@
 'use strict'
 const MINE = '💣'
 const EXPLOADED_MINE = '💥'
+const FLAG = '🚩'
+
+
 var gBoard
 var gLevel = { SIZE: 4, MINES: 2 }
 var gGame = { isOn: true, shownCount: 0, markedCount: 0, secsPassed: 0 }
@@ -71,21 +74,26 @@ function countMinesAround(board, rowIdx, colIdx) {
 }
 
 function renderBoard(board) {
-    var strHTML = '<table><tbody>'
+    var strHTML = '<table><tbody>';
     for (var i = 0; i < board.length; i++) {
-        strHTML += '<tr>'
+        strHTML += '<tr>';
         for (var j = 0; j < board[i].length; j++) {
-            var cell = board[i][j]
-            var className = cell.isMine ? 'mine hidden' : 'hidden'
-            strHTML += `<td class="${className}" onclick="onCellClicked(this, ${i}, ${j})">${cell.isMine ? MINE : cell.minesAroundCount}</td>`
+            var cell = board[i][j];
+            var className = cell.isMine ? 'mine hidden' : 'hidden';
+            strHTML += `<td class="${className}" 
+                onclick="onCellClicked(this, ${i}, ${j})" 
+                oncontextmenu="onCellRightClicked(event, this, ${i}, ${j})">
+                ${cell.isMine ? MINE : cell.minesAroundCount}
+            </td>`;
         }
-        strHTML += '</tr>'
+        strHTML += '</tr>';
     }
-    strHTML += '</tbody></table>'
+    strHTML += '</tbody></table>';
 
-    var elBoard = document.querySelector('.board')
-    elBoard.innerHTML = strHTML
+    var elBoard = document.querySelector('.board');
+    elBoard.innerHTML = strHTML;
 }
+
 
 function onCellClicked(elCell, i, j) {
     if (!gGame.isOn) return
@@ -97,12 +105,7 @@ function onCellClicked(elCell, i, j) {
     if (cell.isMine) {
         elCell.innerText = EXPLOADED_MINE
         elCell.classList.remove('hidden')
-
         gameover()
-
-
-
-
     } else {
         elCell.innerText = cell.minesAroundCount
         elCell.classList.remove('hidden')
@@ -111,30 +114,35 @@ function onCellClicked(elCell, i, j) {
 
 }
 
+function onCellRightClicked(event, elCell, i, j) {
+    event.preventDefault()
+
+    if (!gGame.isOn) return
+    var cell = gBoard[i][j]
+
+    if (!cell.isShown) {
+        cell.isMarked = !cell.isMarked;
+        elCell.classList.remove('hidden')
+        elCell.classList.toggle('marked', cell.isMarked)
+        elCell.innerText = cell.isMarked ? FLAG : (cell.isMine ? MINE : cell.minesAroundCount)
+    }
+}
+
+
 
 function gameover() {
-
     gGame.isOn = false;
-
-  
-
-
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[i].length; j++) {
             var cell = gBoard[i][j];
             var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`);
-
-
             elCell.innerText = cell.isMine ? EXPLOADED_MINE : cell.minesAroundCount;
-            
             elCell.classList.remove('hidden');
         } 
     }
    
-
     var popWindow = document.querySelector('.looser-window')
     popWindow.style.display = 'block'
-
 
 }
 
@@ -147,7 +155,20 @@ function restartGame(){
     popWindow.style.display = 'none'
 
     
-    
 }
 
 
+function onBeginner() {
+    gLevel = { SIZE: 4, MINES: 2 };
+    restartGame();
+}
+
+function onMedium() {
+    gLevel = { SIZE: 8, MINES: 14 };
+    restartGame();
+}
+
+function onExpert() {
+    gLevel = { SIZE: 12, MINES: 32 };
+    restartGame();
+}
