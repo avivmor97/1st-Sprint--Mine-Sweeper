@@ -1,0 +1,49 @@
+body {
+    text-align: center;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.board td {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+   
+    border: 1px solid black;
+}
+
+.board td:hover {
+    background-color: lightsalmon;
+}
+
+.board td.shown {
+    background-color: #ddd;
+}
+
+
+
+.hidden {
+    background-color: #cbcbcb; 
+    color: transparent; 
+    cursor: pointer;
+}
+
+.hidden:hover {
+    background-color: #bbb; 
+}
+
+
+.looser-window{
+    margin-top: 50px;
+    width: 200px;
+    height: 100px;
+    border: 3px solid black;
+    text-align: center;
+    display: none;
+    margin: auto;
+}
