@@ -7,12 +7,30 @@ const FLAG = '🚩'
 var gBoard
 var gLevel = { SIZE: 4, MINES: 2 }
 var gGame = { isOn: true, shownCount: 0, markedCount: 0, secsPassed: 0 }
+var lifeCounter = 3
 
 function onInit() {
     gBoard = buildBoard()
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
+    renderLifeCounter()
 }
+
+
+
+
+function renderLifeCounter() {
+    var lifeDisplay = ''
+    for (var i = 0; i < lifeCounter; i++) {
+        lifeDisplay += '❤'
+    }
+
+
+    var elLifeCounter = document.querySelector('.life-counter');
+    elLifeCounter.innerText = lifeDisplay;
+}
+
+
 
 function buildBoard() {
     var board = [];
@@ -24,18 +42,18 @@ function buildBoard() {
                 isShown: false,
                 isMine: false,
                 isMarked: false
-                
+
             };
 
-           
+
         }
     }
 
     var totalCells = gLevel.SIZE * gLevel.SIZE
     var minesPlaced = 0
-    
+
     while (minesPlaced < gLevel.MINES) {
-       
+
         var randIdx = Math.floor(Math.random() * totalCells)
         var row = Math.floor(randIdx / gLevel.SIZE)
         var col = randIdx % gLevel.SIZE
@@ -46,9 +64,10 @@ function buildBoard() {
         }
     }
 
- 
-    return board;
+
+    return board
 }
+
 
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
@@ -68,7 +87,7 @@ function countMinesAround(board, rowIdx, colIdx) {
             if (board[i][j].isMine) minesCount++
         }
     }
-    return minesCount;
+    return minesCount
 }
 
 function renderBoard(board) {
@@ -105,7 +124,11 @@ function onCellClicked(elCell, i, j) {
     if (cell.isMine) {
         elCell.innerText = EXPLOADED_MINE
         elCell.classList.remove('hidden')
-        gameover(false)  
+        lifeCounter--
+        renderLifeCounter()
+        if (lifeCounter === 0) {
+            gameover(false)
+        }
     } else {
         elCell.innerText = cell.minesAroundCount
         elCell.classList.remove('hidden')
@@ -125,7 +148,7 @@ function onCellRightClicked(event, elCell, i, j) {
         elCell.classList.remove('hidden')
         elCell.classList.toggle('marked', cell.isMarked)
         elCell.innerText = cell.isMarked ? FLAG : (cell.isMine ? MINE : cell.minesAroundCount)
-        
+
         if (cell.isMarked) {
             gGame.markedCount++
         } else {
@@ -145,7 +168,7 @@ function gameover(isWin) {
         for (var j = 0; j < gBoard[i].length; j++) {
             var cell = gBoard[i][j]
             var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`)
-            elCell.innerText = cell.isMine ? MINE : cell.minesAroundCount
+            elCell.innerText = cell.isMine ? EXPLOADED_MINE : cell.minesAroundCount
             elCell.classList.remove('hidden')
         }
     }
@@ -175,17 +198,19 @@ function checkWin() {
 }
 
 
-function restartGame(){
-    gGame.isOn=true
+function restartGame() {
+    gGame.isOn = true
     gBoard = buildBoard()
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
-     var elPopWindow = document.querySelector('.looser-window')
-     elPopWindow.style.display = 'none'
-      var elFace = document.querySelector('.face')
+    lifeCounter = 3
+    renderLifeCounter()
+    var elPopWindow = document.querySelector('.looser-window')
+    elPopWindow.style.display = 'none'
+    var elFace = document.querySelector('.face')
     elFace.innerText = '😁'
 
-    
+
 }
 
 
