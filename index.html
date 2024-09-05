@@ -13,23 +13,33 @@
 
     <h1>Mine Sweeper </h1>
 
-    <div><button class="face" onclick="restartGame()">😁</button></div>
+    <div class="timer">Time: 0 </div>
+    <div><button class="face" onclick="restartGame()">😁</button>
+        <button class="hint" onclick="hintLimiter()">Hints🎇</button>
+    </div>
     <div class="life-counter"></div>
     <table>
         <tbody class="board">
         </tbody>
     </table>
 
-<div class="looser-window"><h4>You Lost !</h4>
-   
-</div>
+    <div class="looser-window">
+        <h4>You Lost !</h4>
 
-<div class="diff">
-    <button onclick="onBeginner(this)" class="beginner">Beginner</button>
-    <button onclick="onMedium(this)" class="medium">Medium</button>
-    <button onclick="onExpert(this)" class="Expert">Expert</button></div>
+    </div>
+
+    <div class="diff">
+        <button onclick="onBeginner(this)" class="beginner">Beginner</button>
+        <button onclick="onMedium(this)" class="medium">Medium</button>
+        <button onclick="onExpert(this)" class="Expert">Expert</button>
+    </div>
     <script src="JS/Main.js"></script>
     <script src="JS/utilles.js"></script>
+
+
+    <footer>
+        <p>Created by Aviv Mor</p>
+    </footer>
 </body>
 
 </html>

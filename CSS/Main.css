@@ -1,12 +1,22 @@
 body {
     text-align: center;
-    border: 5px solid black;
+    border: 10px solid black;
     border-radius: 40px;
     max-width: 800px;
+    background-image: url('https://images.squarespace-cdn.com/content/v1/5497331ae4b0148a6141bd47/1533488464157-AYYS0QO7ZW0KPGOT6XRQ/underwater-sea-mine-danger-weapon-deadly-naval-ocean-sea_bpocqo-8__F0000.png?format=1500w');
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+    
    
 
 
-}
+
 
 h1{
     border: 3px solid black;
@@ -16,14 +26,19 @@ h1{
     border-radius: 40px;
     font-style: italic;
     width: 70%;
+    box-shadow: 3px 12px 56px 6px #0b92f9;
+    background-color:#6ec0fe ;
+    color: rgb(57, 57, 57);
 }
 
 table {
     border: 3px solid black;
     border-collapse: collapse;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 40px;
     margin-bottom: 50px;
+    box-shadow: 3px 12px 56px 6px #0b92f9;
+    background-color: #f1f1f1;
     
 
 
@@ -51,6 +66,8 @@ table {
     cursor: pointer;
     /* opacity: 0; */
     font-size: 0;
+    filter: blur(3px);
+    
 
    
 }
@@ -76,10 +93,45 @@ table {
 }
 
 .diff {
+    margin: auto;
     margin-top: 30px;
     margin-bottom: 40px;
+    border: 2.5px solid black;
+    width: 200px;
+    border-radius: 40px;
+    background-color:#6ec0fe ;
+    box-shadow: 3px 12px 56px 6px #0b92f9;
+    
+ 
 }
 
 .face {
     width: 40px;
+}
+
+.timer{
+    border-radius: 40px;
+    border: 2.5px solid black;
+    width: 80px;
+    margin: auto;
+    margin-bottom: 30px;
+    background-color: aliceblue;
+}
+
+footer {
+    
+    bottom: 0;
+    width: 100%;
+    background-color:#c7e2f6 ;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 16px;
+    border-top: 2px solid #ccc;
+    border: 2.5px solid black;
+    margin: auto;
+    border-radius: 10px;
+}
+
+footer p {
+    margin: 0;
 }

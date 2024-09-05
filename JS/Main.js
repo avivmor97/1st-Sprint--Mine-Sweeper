@@ -6,15 +6,25 @@ const FLAG = '🚩'
 
 var gBoard
 var gLevel = { SIZE: 4, MINES: 2 }
-var gGame = { isOn: true, shownCount: 0, markedCount: 0, secsPassed: 0 }
+var gGame = { isOn: true, shownCount: 0, markedCount: 0, secsPassed: 0,}
 var lifeCounter = 3
+var gTimerInterval
+var hintCount = 3
+
+
 
 function onInit() {
+    gGame.secsPassed = 0
+    clearInterval(gTimerInterval)
+    gTimerInterval = setInterval(updateTimer, 1000)
+
     gBoard = buildBoard()
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
     renderLifeCounter()
 }
+
+
 
 
 
@@ -163,7 +173,10 @@ function onCellRightClicked(event, elCell, i, j) {
 
 
 function gameover(isWin) {
-    gGame.isOn = false;
+    gGame.isOn = false
+    clearInterval(gTimerInterval)
+    
+    gGame.isOn = false
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[i].length; j++) {
             var cell = gBoard[i][j]
@@ -200,6 +213,10 @@ function checkWin() {
 
 function restartGame() {
     gGame.isOn = true
+    gGame.secsPassed = 0
+    clearInterval(gTimerInterval)
+    gTimerInterval = setInterval(updateTimer, 1000)
+
     gBoard = buildBoard()
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
@@ -227,4 +244,51 @@ function onMedium() {
 function onExpert() {
     gLevel = { SIZE: 12, MINES: 32 }
     restartGame()
+}
+
+
+
+
+
+
+function hintLimiter() {
+
+    
+
+    
+
+    if (hintCount > 0) {
+
+        hint()
+        hintCount--
+        alert('Hints left:' + hintCount)
+    } else {
+        alert('No more hints left!')
+        var elHintBtn = document.querySelector('.hint')
+        elHintBtn.innerText = 'Out of Hints 😪'
+    }
+}
+
+
+
+function hint() {
+
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[i].length; j++) {
+            var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`)
+            elCell.classList.remove('hidden')
+        }
+    }
+
+    setTimeout(function () {
+        for (var i = 0; i < gBoard.length; i++) {
+            for (var j = 0; j < gBoard[i].length; j++) {
+                var cell = gBoard[i][j]
+                var elCell = document.querySelector(`.board tr:nth-child(${i + 1}) td:nth-child(${j + 1})`)
+                if (!cell.isShown && !cell.isMarked) {
+                    elCell.classList.add('hidden')
+                }
+            }
+        }
+    }, 1000)
 }
